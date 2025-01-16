@@ -5,9 +5,9 @@ const app = express();
 const port = process.env.PORT || 5001;
 
 // Import the route files
-const userRoutes = require('../backend/api/userRoutes');
-const courseRoutes = require('../backend/api/courseRoutes');
-const tripRoutes = require('../backend/api/tripRoutes');
+const userRoutes = require('./routes/userRoutes');
+const courseRoutes = require('./routes/courseRoutes');
+const roundRoutes = require('./routes/roundRoutes');
 
 app.use(cors());
 
@@ -25,7 +25,7 @@ mongoose.connect('mongodb://localhost:27017/zgolftrips', {
 // Set up routes
 app.use('/users', userRoutes);
 app.use('/courses', courseRoutes);
-app.use('/trips', tripRoutes);
+app.use('/rounds', roundRoutes);
 
 // Test route
 app.get('/', (req, res) => {
