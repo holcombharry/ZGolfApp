@@ -31,9 +31,9 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="explore"
+        name="myRounds"
         options={{
-          title: 'Explore',
+          title: 'Rounds',
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon name={focused ? 'compass' : 'compass-outline'} color={color} />
           ),
