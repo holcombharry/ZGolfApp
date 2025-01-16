@@ -1,13 +1,16 @@
 import React from 'react';
 import { StyleSheet, ScrollView } from 'react-native';
-// import { Text } from 'react-native-paper';
+import { Heading } from "@/components/ui/heading";
+import { Box } from "@/components/ui/box";
 
 export default function WelcomeScreen() {
 
   return (
     <ScrollView
     >
-      {/* <Text>Welcome to ZGolfApp!</Text> */}
+      <Box className="bg-primary-100 p-5">
+        <Heading>Welcome to ZGolfApp!</Heading>
+      </Box>
     </ScrollView>
   );
 }
