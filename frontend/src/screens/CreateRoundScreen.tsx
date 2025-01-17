@@ -25,38 +25,88 @@ export default function CreateRoundScreen() {
             <Heading>Welcome to Create Rounds on ZGolfApp!</Heading>
         </Box>
         <Card size="md" variant="elevated" className="m-3">
-            <VStack>
             <Heading size="md" className="py-2">
                 Starting a round?
             </Heading>
-            <FormControl className="py-4">
-                <FormControlLabel>
-                    <FormControlLabelText style={{ fontSize: 12 }}>Number of Players</FormControlLabelText>
-                </FormControlLabel>
-                    <Select>
-                        <SelectTrigger variant="outline" size="md">
-                            <SelectInput placeholder="Select option" className="flex-1" />
-                            <SelectIcon className="mr-3" as={ChevronDownIcon} />
-                        </SelectTrigger>
-                        <SelectPortal>
-                            <SelectBackdrop />
-                            <SelectContent className="pb-6">
-                                <SelectDragIndicatorWrapper>
-                                    <SelectDragIndicator />
-                                </SelectDragIndicatorWrapper>
-                                <SelectItem label="1" value="1" />
-                                <SelectItem label="2" value="2" />
-                                <SelectItem label="3" value="3" />
-                                <SelectItem label="4" value="4" />
-                            </SelectContent>
-                        </SelectPortal>
-                    </Select>
+            <FormControl isRequired className="py-2">
+                <VStack>
+                    <Box className="py-2">
+                        <FormControlLabel>
+                            <FormControlLabelText style={{ fontSize: 12 }}>Number of Players</FormControlLabelText>
+                        </FormControlLabel>
+                        <Select>
+                            <SelectTrigger variant="outline" size="md">
+                                <SelectInput placeholder="Select option" className="flex-1" />
+                                <SelectIcon className="mr-3" as={ChevronDownIcon} />
+                            </SelectTrigger>
+                            <SelectPortal>
+                                <SelectBackdrop />
+                                <SelectContent className="pb-6">
+                                    <SelectDragIndicatorWrapper>
+                                        <SelectDragIndicator />
+                                    </SelectDragIndicatorWrapper>
+                                    <SelectItem label="1" value="1" />
+                                    <SelectItem label="2" value="2" />
+                                    <SelectItem label="3" value="3" />
+                                    <SelectItem label="4" value="4" />
+                                </SelectContent>
+                            </SelectPortal>
+                        </Select>
+                    </Box>
+
+                    <Box className="py-2">
+                        <FormControlLabel>
+                            <FormControlLabelText style={{ fontSize: 12 }}>Match Type</FormControlLabelText>
+                        </FormControlLabel>
+                        <Select>
+                            <SelectTrigger variant="outline" size="md">
+                                <SelectInput placeholder="Select option" className="flex-1" />
+                                <SelectIcon className="mr-3" as={ChevronDownIcon} />
+                            </SelectTrigger>
+                            <SelectPortal>
+                                <SelectBackdrop />
+                                <SelectContent className="pb-6">
+                                    <SelectDragIndicatorWrapper>
+                                        <SelectDragIndicator />
+                                    </SelectDragIndicatorWrapper>
+                                    <SelectItem label="Match Play" value="Match Play" />
+                                    <SelectItem label="Stroke Play" value="Stroke Play" />
+                                    <SelectItem label="Scramble" value="Scramble" />
+                                    <SelectItem label="Best Ball" value="Best Ball" />
+                                </SelectContent>
+                            </SelectPortal>
+                        </Select>
+                    </Box>
+
+                    <Box className="py-2">
+                        <FormControlLabel>
+                            <FormControlLabelText style={{ fontSize: 12 }}>Golf Course</FormControlLabelText>
+                        </FormControlLabel>
+                        <Select>
+                            <SelectTrigger variant="outline" size="md">
+                                <SelectInput placeholder="Select option" className="flex-1" />
+                                <SelectIcon className="mr-3" as={ChevronDownIcon} />
+                            </SelectTrigger>
+                            <SelectPortal>
+                                <SelectBackdrop />
+                                <SelectContent className="pb-6">
+                                    <SelectDragIndicatorWrapper>
+                                        <SelectDragIndicator />
+                                    </SelectDragIndicatorWrapper>
+                                    <SelectItem label="Torrey Pines" value="Torrey Pines" />
+                                    <SelectItem label="Bandon" value="Bandon" />
+                                    <SelectItem label="LACC" value="LACC" />
+                                    <SelectItem label="Tierra Verde" value="Tierra Verde" />
+                                </SelectContent>
+                            </SelectPortal>
+                        </Select>
+                    </Box>
+                    <Button size="md" variant="solid" action="primary" className="my-2"
+                        onPress={pressThatBih}>
+                        <ButtonText>Create Match</ButtonText>
+                    </Button>
+                </VStack>
             </FormControl>
-            <Button size="md" variant="solid" action="primary" className="flex-1"
-                onPress={pressThatBih}>
-                <ButtonText>Create Match</ButtonText>
-            </Button>
-            </VStack>
         </Card>
     </ScrollView>
   );
