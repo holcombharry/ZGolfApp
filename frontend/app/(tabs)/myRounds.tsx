@@ -7,7 +7,7 @@ const RoundsStack = createStackNavigator();
 
 export default function TabTwoScreen() {
   return (
-    <RoundsStack.Navigator initialRouteName="Welcome">
+    <RoundsStack.Navigator initialRouteName="Rounds">
       <RoundsStack.Screen name="Rounds" component={RoundsScreen} options={{ title: 'Rounds' }} />
     </RoundsStack.Navigator>
   );

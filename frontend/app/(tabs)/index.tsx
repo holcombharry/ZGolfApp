@@ -7,8 +7,8 @@ const HomeStack = createStackNavigator();
 
 export default function HomeScreen() {
   return (
-    <HomeStack.Navigator initialRouteName="Welcome">
-      <HomeStack.Screen name="Welcome" component={WelcomeScreen} options={{ title: 'Home' }} />
+    <HomeStack.Navigator initialRouteName="Home">
+      <HomeStack.Screen name="Home" component={WelcomeScreen} options={{ title: 'Home' }} />
     </HomeStack.Navigator>
   );
 }
