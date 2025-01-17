@@ -7,8 +7,8 @@ const RoundsStack = createStackNavigator();
 
 export default function TabThreeScreen() {
   return (
-    <RoundsStack.Navigator initialRouteName="Create Round">
-      <RoundsStack.Screen name="Create Round" component={CreateRoundScreen} options={{ title: 'Rounds' }} />
+    <RoundsStack.Navigator initialRouteName="CreateRound">
+      <RoundsStack.Screen name="CreateRound" component={CreateRoundScreen} options={{ title: 'Rounds' }} />
     </RoundsStack.Navigator>
   );
 }
