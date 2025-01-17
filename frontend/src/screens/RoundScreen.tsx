@@ -13,7 +13,6 @@ import { Avatar, AvatarFallbackText } from '@/components/ui/avatar';
 import { Button, ButtonText } from '@/components/ui/button';
 
 const RoundScreen: React.FC = () => {
-
     const route = useRoute();
 
     const { round } = route.params;

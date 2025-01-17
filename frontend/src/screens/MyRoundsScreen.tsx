@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Alert, ScrollView } from 'react-native';
+import { Alert, ScrollView, RefreshControl } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 import { Heading } from "@/components/ui/heading";
@@ -14,29 +14,36 @@ import RoundCard from '../components/RoundCard';
 export default function MyRoundsScreen() {
   const [rounds, setRounds] = useState<Round[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [refreshing, setRefreshing] = useState(false);
 
   const navigation = useNavigation(); 
 
   useEffect(() => {
-    const fetchRounds = async () => {
-      try {
-        const response = await getAllRounds();
-        if(response && response.status === 200) {
-          const data = response.data;
-          setRounds(data);
-        } else {
-          Alert.alert('Error', 'Failed to fetch courses');
-        }
-      } catch (error) {
-        console.error('Error fetching courses:', error);
-        Alert.alert('Error', 'An error occurred while fetching courses');
-      } finally {
-          setLoading(false); // Set loading to false after fetching
-      }
-    }
-
     fetchRounds();
   }, [])
+
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await fetchRounds();
+    setRefreshing(false);
+  };
+
+  const fetchRounds = async () => {
+    try {
+      const response = await getAllRounds();
+      if(response && response.status === 200) {
+        const data = response.data;
+        setRounds(data);
+      } else {
+        Alert.alert('Error', 'Failed to fetch courses');
+      }
+    } catch (error) {
+      console.error('Error fetching courses:', error);
+      Alert.alert('Error', 'An error occurred while fetching courses');
+    } finally {
+        setLoading(false); // Set loading to false after fetching
+    }
+  };
 
   if (loading) {
     return (
@@ -47,7 +54,10 @@ export default function MyRoundsScreen() {
   }
 
   return (
-    <ScrollView>
+    <ScrollView
+    refreshControl={
+      <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+    }>
       <Box className="bg-info-100 p-5">
         <Heading>Welcome to Rounds on ZGolfApp!</Heading>
       </Box>
