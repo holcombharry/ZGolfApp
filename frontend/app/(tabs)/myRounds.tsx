@@ -1,14 +1,16 @@
 import { StyleSheet, Image, Platform } from 'react-native';
 
 import { createStackNavigator } from '@react-navigation/stack';
-import RoundsScreen from '@/src/screens/RoundsScreen';
+import MyRoundsScreen from '@/src/screens/MyRoundsScreen';
+import RoundScreen from '@/src/screens/RoundScreen';
 
 const RoundsStack = createStackNavigator();
 
 export default function TabTwoScreen() {
   return (
-    <RoundsStack.Navigator initialRouteName="Rounds">
-      <RoundsStack.Screen name="Rounds" component={RoundsScreen} options={{ title: 'Rounds' }} />
+    <RoundsStack.Navigator initialRouteName="MyRounds">
+      <RoundsStack.Screen name="MyRounds" component={MyRoundsScreen} options={{ title: 'Rounds' }} />
+      <RoundsStack.Screen name="Round" component={RoundScreen} options={{ title: 'Round' }} />
     </RoundsStack.Navigator>
   );
 }

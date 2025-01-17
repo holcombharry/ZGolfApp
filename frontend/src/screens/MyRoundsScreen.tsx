@@ -1,17 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { Alert, ScrollView } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+
 import { Heading } from "@/components/ui/heading";
 import { Box } from "@/components/ui/box";
 import { Spinner } from '@/components/ui/spinner';
+import { Pressable } from 'react-native';
 
 import { getAllRounds } from '@/api/apiService';
 import { Round } from '../types/round.types';
 import RoundCard from '../components/RoundCard';
 
-export default function RoundsScreen() {
-
+export default function MyRoundsScreen() {
   const [rounds, setRounds] = useState<Round[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+
+  const navigation = useNavigation(); 
 
   useEffect(() => {
     const fetchRounds = async () => {
@@ -43,13 +47,14 @@ export default function RoundsScreen() {
   }
 
   return (
-    <ScrollView
-    >
+    <ScrollView>
       <Box className="bg-primary-100 p-5">
         <Heading>Welcome to Rounds on ZGolfApp!</Heading>
       </Box>
       {rounds.map((round) => (
-        <RoundCard round={round} />
+        <Pressable onPress={() => navigation.navigate('Round', { round })}>
+          <RoundCard key={round._id} round={round} />
+        </Pressable>
       ))}
     </ScrollView>
   );
