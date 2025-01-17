@@ -44,7 +44,7 @@ export default function TabLayout() {
         options={{
           title: 'New Round',
           tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'compass' : 'compass-outline'} color={color} />
+            <TabBarIcon name={focused ? 'add-circle' : 'add-circle-outline'} color={color} />
           ),
         }}
       />
