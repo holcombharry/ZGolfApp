@@ -90,7 +90,7 @@ export default function CreateRoundScreen() {
   return (
     <ScrollView
     >
-        <Box className="bg-primary-100 p-5">
+        <Box className="bg-info-100 p-5">
             <Heading>Welcome to Create Rounds on ZGolfApp!</Heading>
         </Box>
         <Card size="md" variant="elevated" className="m-3">

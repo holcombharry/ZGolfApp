@@ -48,11 +48,11 @@ export default function MyRoundsScreen() {
 
   return (
     <ScrollView>
-      <Box className="bg-primary-100 p-5">
+      <Box className="bg-info-100 p-5">
         <Heading>Welcome to Rounds on ZGolfApp!</Heading>
       </Box>
       {rounds.map((round) => (
-        <Pressable onPress={() => navigation.navigate('Round', { round })}>
+        <Pressable key={round._id} onPress={() => navigation.navigate('Round', { round })}>
           <RoundCard key={round._id} round={round} />
         </Pressable>
       ))}

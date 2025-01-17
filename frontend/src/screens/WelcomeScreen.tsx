@@ -8,7 +8,7 @@ export default function WelcomeScreen() {
   return (
     <ScrollView
     >
-      <Box className="bg-primary-100 p-5">
+      <Box className="bg-info-100 p-5">
         <Heading>Welcome to ZGolfApp!</Heading>
       </Box>
     </ScrollView>
