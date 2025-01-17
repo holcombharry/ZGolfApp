@@ -3,7 +3,8 @@ import { Course } from './course.types';
 export type Round = {
     _id: string; // ObjectId as a string
     course: Course;
-    golfers: string[]; // Array of ObjectIds as strings
+    golfers: string[]; // Only stores golfers with linked accounts
+    groupSize: number;
     score: (number | null)[]; // Array of scores per hole, can include null values
     front?: number; // Optional, total score for the front 9
     back?: number; // Optional, total score for the back 9
