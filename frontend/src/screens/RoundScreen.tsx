@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useRoute } from '@react-navigation/native';
 
-import { ScrollView } from 'react-native';
+import { ScrollView, Alert } from 'react-native';
 import { Heading } from "@/components/ui/heading";
 import { Box } from "@/components/ui/box";
 import { Card } from '@/components/ui/card';
@@ -11,8 +11,10 @@ import { User } from '../types/user.types';
 import { HStack } from '@/components/ui/hstack';
 import { Avatar, AvatarFallbackText } from '@/components/ui/avatar';
 import { Button, ButtonText } from '@/components/ui/button';
+import AddScoreModal from '../components/AddScoreModal';
 
 const RoundScreen: React.FC = () => {
+    const [showAddScoreModal, setShowAddScoreModal] = useState(false);
     const route = useRoute();
 
     const { round } = route.params;
@@ -31,6 +33,10 @@ const RoundScreen: React.FC = () => {
         return -1;
     }
 
+    const handleAddScore = () => {
+        setShowAddScoreModal(true);
+    }
+
   return (
     <ScrollView>
         <VStack>
@@ -45,7 +51,7 @@ const RoundScreen: React.FC = () => {
                 <Heading>Current Hole</Heading>
                 <Box className="py-4 pr-4 flex flex-row justify-center items-center">
                     <Text size="2xl" className="flex-1">{getCurrentHole(round.score)}</Text>
-                    <Button>
+                    <Button onPress={handleAddScore}>
                         <ButtonText>Add scores</ButtonText>
                     </Button>
                 </Box>
@@ -81,7 +87,7 @@ const RoundScreen: React.FC = () => {
                 ))}
             </Card>
         </VStack>
-
+        <AddScoreModal golfers={golfers} hole={getCurrentHole(round.score)} showModal={showAddScoreModal} setShowModal={setShowAddScoreModal}/>
     </ScrollView>
   );
 }

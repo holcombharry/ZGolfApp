@@ -1,11 +1,16 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+const scoreSchema = new Schema({
+  golfer: { type: Schema.Types.ObjectId, ref: 'User', required: true }, // Reference to the golfer
+  score: { type: [Number], default: Array(18).fill(null) }, // Scores for each hole
+});
+
 const roundSchema = new Schema({
   course: { type: Schema.Types.ObjectId, ref: 'Course' }, // Need the bottom three in case someone doesn't want to go hole by hole
   golfers: [{ type: Schema.Types.ObjectId, ref: 'User' }], // This will contain less than the group size if not everyone has an account
   groupSize: { type: Number },
-  score: { type: [Number], default: Array(18).fill(null) }, // Array of scores per hole
+  scorecard: { type: [scoreSchema], default: [] },
   front: { type: Number }, // Need the bottom three in case someone doesn't want to go hole by hole
   back: { type: Number },
   total: { type: Number }, 
