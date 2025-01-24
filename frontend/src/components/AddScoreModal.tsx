@@ -65,7 +65,6 @@ const AddScoreModal: React.FC<AddScoreModalProps> = ({ scorecard, hole, showModa
                         )
                     })
                 }
-
             </VStack>
           </ModalBody>
           <ModalFooter>
