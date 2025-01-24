@@ -12,20 +12,35 @@ import { HStack } from '@/components/ui/hstack';
 import { Avatar, AvatarFallbackText } from '@/components/ui/avatar';
 import { Button, ButtonText } from '@/components/ui/button';
 import AddScoreModal from '../components/AddScoreModal';
+import { Score } from '../types/scorecard.types';
+import { updateRoundById } from '@/api/apiService';
 
 const RoundScreen: React.FC = () => {
-    const [showAddScoreModal, setShowAddScoreModal] = useState(false);
     const route = useRoute();
 
-    const { round } = route.params;
+    const [round, setRound] = useState(route.params.round);
+    const [showAddScoreModal, setShowAddScoreModal] = useState(false);
 
-    const golfers = round.golfers.length < 4
-    ? [...round.golfers, ...Array(4 - round.golfers.length).fill(null)]
-    : round.golfers;
-
-    const handleAddScore = () => {
+    const handleShowAddScoreModal = () => {
         setShowAddScoreModal(true);
     }
+
+    const handleCloseAddScoreModal = () => {
+        setShowAddScoreModal(false);
+    }
+
+    const handleSaveScores = (updatedScorecard: Score[]) => {
+        const updatedRound = { ...round, scorecard: updatedScorecard, currentHole: round.currentHole + 1 };
+
+        updateRoundById(round._id, updatedRound)
+            .then(() => {
+                setRound(updatedRound);
+                Alert.alert('Success', 'Scores updated successfully!');
+            })
+            .catch(() => {
+                Alert.alert('Error', 'Scores not updated!');
+            })
+      };
 
   return (
     <ScrollView>
@@ -41,14 +56,14 @@ const RoundScreen: React.FC = () => {
                 <Heading>Current Hole</Heading>
                 <Box className="py-4 pr-4 flex flex-row justify-center items-center">
                     <Text size="2xl" className="flex-1">{round.currentHole}</Text>
-                    <Button onPress={handleAddScore}>
+                    <Button onPress={handleShowAddScoreModal}>
                         <ButtonText>Add scores</ButtonText>
                     </Button>
                 </Box>
             </Card>
             <Card className="p-5 mx-4 my-2">
                 <Heading>Golfers</Heading>
-                {golfers.map((golfer: User, index: number) => (
+                {round.golfers.map((golfer: User, index: number) => (
                     <Card key={`${golfer._id}-${index}`}>
                         <HStack space='md' className='items-center'>
                             <Avatar>
@@ -62,7 +77,7 @@ const RoundScreen: React.FC = () => {
                 ))}
             </Card>
         </VStack>
-        <AddScoreModal scorecard={round.scorecard} hole={round.currentHole} showModal={showAddScoreModal} setShowModal={setShowAddScoreModal}/>
+        <AddScoreModal scorecard={round.scorecard} hole={round.currentHole} showModal={showAddScoreModal} onCloseModal={handleCloseAddScoreModal} onSaveScores={handleSaveScores}/>
     </ScrollView>
   );
 }
