@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+const placeholderUserId = '64fb89a11234567890abcdf1';
+
 const scoreSchema = new Schema({
   golfer: { type: Schema.Types.ObjectId, ref: 'User', required: true }, // Reference to the golfer
   score: { type: [Number], default: Array(18).fill(null) }, // Scores for each hole
@@ -14,6 +16,7 @@ const roundSchema = new Schema({
   front: { type: Number }, // Need the bottom three in case someone doesn't want to go hole by hole
   back: { type: Number },
   total: { type: Number }, 
+  currentHole: { type: Number, default: 1 },
   matchType: { 
     type: String, 
     enum: ['Match Play', 'Stroke Play', 'Scramble', 'Best Ball']
@@ -21,6 +24,27 @@ const roundSchema = new Schema({
   date: { type: Date, required: true }
 }, {
   timestamps: true, // Automatically creates createdAt and updatedAt fields
+});
+
+// Pre-save middleware to populate the scorecard and fill missing golfers
+roundSchema.pre('save', function (next) {
+  // Populate scorecard if empty
+  if (this.groupSize && this.scorecard.length === 0) {
+    this.scorecard = Array(this.groupSize).fill(null).map(() => ({
+      golfer: null, // Placeholder golfer
+      score: Array(18).fill(null), // Default scores
+    }));
+  }
+
+
+  // Fill missing golfers with placeholders
+  if (this.groupSize && this.golfers.length < this.groupSize) {
+    const placeholdersNeeded = this.groupSize - this.golfers.length;
+    const placeholders = Array(placeholdersNeeded).fill(placeholderUserId);
+    this.golfers = this.golfers.concat(placeholders);
+  }
+
+  next();
 });
 
 const Round = mongoose.model('Round', roundSchema);

@@ -23,16 +23,6 @@ const RoundScreen: React.FC = () => {
     ? [...round.golfers, ...Array(4 - round.golfers.length).fill(null)]
     : round.golfers;
 
-    const getCurrentHole = (score: number[]) => {
-        for(let i = 0; i < score.length; i++) {
-            if(score[i] === null) {
-                return i + 1;
-            }
-        }
-        // To indicate round is over
-        return -1;
-    }
-
     const handleAddScore = () => {
         setShowAddScoreModal(true);
     }
@@ -50,7 +40,7 @@ const RoundScreen: React.FC = () => {
             <Card className="p-5 mx-4 my-2">
                 <Heading>Current Hole</Heading>
                 <Box className="py-4 pr-4 flex flex-row justify-center items-center">
-                    <Text size="2xl" className="flex-1">{getCurrentHole(round.score)}</Text>
+                    <Text size="2xl" className="flex-1">{round.currentHole}</Text>
                     <Button onPress={handleAddScore}>
                         <ButtonText>Add scores</ButtonText>
                     </Button>
@@ -59,35 +49,20 @@ const RoundScreen: React.FC = () => {
             <Card className="p-5 mx-4 my-2">
                 <Heading>Golfers</Heading>
                 {golfers.map((golfer: User, index: number) => (
-                    golfer === null ? (
-                        <Card key={index + 1} className="bg-info-50 my-1">
-                            <HStack space='md' className='items-center'>
-                                <Avatar>
-                                    <AvatarFallbackText>
-                                        Golfer
-                                    </AvatarFallbackText>
-                                </Avatar>
-                                
-                                <Text>Golfer {index + 1}</Text>
-                            </HStack>
-                        </Card>
-
-                    ) : (
-                        <Card key={golfer._id}>
-                            <HStack space='md' className='items-center'>
-                                <Avatar>
-                                    <AvatarFallbackText>
-                                        {golfer.name}
-                                    </AvatarFallbackText>
-                                </Avatar>
-                                <Text>{golfer.name}</Text>
-                            </HStack>
-                        </Card>
-                    )
+                    <Card key={`${golfer._id}-${index}`}>
+                        <HStack space='md' className='items-center'>
+                            <Avatar>
+                                <AvatarFallbackText>
+                                    {golfer.name}
+                                </AvatarFallbackText>
+                            </Avatar>
+                            <Text>{golfer.name}</Text>
+                        </HStack>
+                    </Card>
                 ))}
             </Card>
         </VStack>
-        <AddScoreModal golfers={golfers} hole={getCurrentHole(round.score)} showModal={showAddScoreModal} setShowModal={setShowAddScoreModal}/>
+        <AddScoreModal scorecard={round.scorecard} hole={round.currentHole} showModal={showAddScoreModal} setShowModal={setShowAddScoreModal}/>
     </ScrollView>
   );
 }
