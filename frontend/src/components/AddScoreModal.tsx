@@ -83,7 +83,7 @@ const AddScoreModal: React.FC<AddScoreModalProps> = ({ scorecard, hole, showModa
               return (
                 <HStack key={index} className="py-2 flex-1 justify-between items-center w-full">
                   <Text style={{ fontSize: 12 }} className="flex-0 mr-2">
-                    {golfer === null ? `Golfer ${index + 1}` : golfer.name}
+                    {golfer === null ? `Golfer ${index + 1}` : golfer.displayName}
                   </Text>
                   <Input
                     variant="outline"

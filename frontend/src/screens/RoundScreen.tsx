@@ -7,7 +7,6 @@ import { Box } from "@/components/ui/box";
 import { Card } from '@/components/ui/card';
 import { Text } from '@/components/ui/text';
 import { VStack } from '@/components/ui/vstack';
-import { User } from '../types/user.types';
 import { HStack } from '@/components/ui/hstack';
 import { Avatar, AvatarFallbackText } from '@/components/ui/avatar';
 import { Button, ButtonText } from '@/components/ui/button';
@@ -78,10 +77,10 @@ const RoundScreen: React.FC = () => {
                                 <HStack className='flex items-center'>
                                     <Avatar className='mr-3'>
                                         <AvatarFallbackText>
-                                            {score.golfer.name}
+                                            {score.golfer.displayName}
                                         </AvatarFallbackText>
                                     </Avatar>
-                                    <Text>{score.golfer.name}</Text>
+                                    <Text>{score.golfer.displayName}</Text>
                                 </HStack>
                             </Box>
                             <Text className='text-right'>{score.score.filter(strokes => strokes !== null).reduce((acc, holeStrokes) => acc + holeStrokes, 0)}</Text>

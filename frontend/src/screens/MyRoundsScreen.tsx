@@ -32,7 +32,16 @@ export default function MyRoundsScreen() {
     try {
       const response = await getAllRounds();
       if(response && response.status === 200) {
-        const data = response.data;
+        const data = response.data.map(round => ({
+          ...round,
+          scorecard: round.scorecard.map((score, index) => ({
+            ...score,
+            golfer: {
+              ...score.golfer,
+              displayName: score.golfer.placeholder ? `Golfer ${index + 1}` : score.golfer.name
+            }
+          }))
+        }));
         setRounds(data);
       } else {
         Alert.alert('Error', 'Failed to fetch courses');

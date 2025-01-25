@@ -6,7 +6,7 @@ export type Round = {
     course: Course;
     golfers: string[]; // Only stores golfers with linked accounts
     groupSize: number;
-    score: (Score | null)[]; // Array of scores per hole, can include null values
+    scorecard: (Score | null)[]; // Array of scores per hole, can include null values
     front?: number; // Optional, total score for the front 9
     back?: number; // Optional, total score for the back 9
     total?: number; // Optional, total score for the round
