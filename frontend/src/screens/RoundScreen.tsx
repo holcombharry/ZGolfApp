@@ -51,6 +51,7 @@ const RoundScreen: React.FC = () => {
                 {new Date(round.date).toLocaleString()}
                 </Text>
             </Box>
+            {round.currentHole <= 18 ? (
             <Card className="p-5 mx-4 my-2">
                 <Heading>Current Hole</Heading>
                 <Box className="py-4 pr-4 flex flex-row justify-center items-center">
@@ -60,6 +61,17 @@ const RoundScreen: React.FC = () => {
                     </Button>
                 </Box>
             </Card>
+            ) : (
+            <Card className="p-5 mx-4 my-2">
+                <HStack className='flex justify-between items-center w-full'>
+                    <Heading className='text-left'>Round Finished!</Heading>
+                    <Button className='text-right' onPress={handleShowAddScoreModal}>
+                        <ButtonText>Edit scores</ButtonText>
+                    </Button>
+                </HStack>
+            </Card>
+            )}
+
             <Card className="p-5 mx-4 my-2">
                 <HStack className='flex justify-between items-center w-full'>
                     <Heading className='text-left'>Leaderboard</Heading>
