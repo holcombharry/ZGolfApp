@@ -30,18 +30,18 @@ const roundSchema = new Schema({
 roundSchema.pre('save', function (next) {
   // Populate scorecard if empty
   if (this.groupSize && this.scorecard.length === 0) {
-    this.scorecard = Array(this.groupSize).fill(null).map(() => ({
-      golfer: null, // Placeholder golfer
-      score: Array(18).fill(null), // Default scores
+    // First ensure golfers array is populated with placeholders
+    if (this.golfers.length < this.groupSize) {
+      const placeholdersNeeded = this.groupSize - this.golfers.length;
+      const placeholders = Array(placeholdersNeeded).fill(placeholderUserId);
+      this.golfers = this.golfers.concat(placeholders);
+    }
+    
+    // Create scorecard using golfers array
+    this.scorecard = this.golfers.map(golferId => ({
+      golfer: golferId,
+      score: Array(18).fill(null),
     }));
-  }
-
-
-  // Fill missing golfers with placeholders
-  if (this.groupSize && this.golfers.length < this.groupSize) {
-    const placeholdersNeeded = this.groupSize - this.golfers.length;
-    const placeholders = Array(placeholdersNeeded).fill(placeholderUserId);
-    this.golfers = this.golfers.concat(placeholders);
   }
 
   next();

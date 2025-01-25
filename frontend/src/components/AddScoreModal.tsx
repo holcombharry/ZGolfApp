@@ -1,7 +1,4 @@
 import React, { useState } from 'react';
-import { ScrollView, Alert } from 'react-native';
-import { Card } from '@/components/ui/card';
-import { Box } from '@/components/ui/box';
 import { Heading } from '@/components/ui/heading';
 import { Text } from '@/components/ui/text';
 import { Score } from '../types/scorecard.types';
@@ -24,7 +21,7 @@ const AddScoreModal: React.FC<AddScoreModalProps> = ({ scorecard, hole, showModa
   // State to store input scores for each golfer
   const [inputScores, setInputScores] = useState<string[]>(() =>
     scorecard.map((entry) => {
-        const scoreForHole = entry.score[hole] ?? ''; // Get the value at the specified "hole" index or default to an empty string
+        const scoreForHole = entry.score[hole - 1] ?? ''; // Get the value at the specified "hole" index or default to an empty string
         return scoreForHole.toString(); // Convert the score to a string
       })
   );
@@ -41,8 +38,13 @@ const AddScoreModal: React.FC<AddScoreModalProps> = ({ scorecard, hole, showModa
     const updatedScorecard = scorecard.map((score, index) => {
       const newScore = parseInt(inputScores[index], 10);
       if (!isNaN(newScore)) {
+        const updatedScores = [...score.score];
+        updatedScores[hole - 1] = newScore;
         // Update the score for the specified hole
-        score.score[hole - 1] = newScore;
+        return {
+            ...score,
+            score: updatedScores
+          };
       }
       return score;
     });
@@ -94,7 +96,7 @@ const AddScoreModal: React.FC<AddScoreModalProps> = ({ scorecard, hole, showModa
                     <InputField
                       placeholder="Score..."
                       value={inputScores[index]}
-                      onChange={(e) => handleInputChange(index, e.target.value)}
+                      onChangeText={(text) => handleInputChange(index, text)}
                     />
                   </Input>
                 </HStack>

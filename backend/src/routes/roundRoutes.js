@@ -17,7 +17,7 @@ router.post('/', async (req, res) => {
 // Get all Routes
 router.get('/', async (req, res) => {
   try {
-    const round = await Round.find().populate('golfers course');
+    const round = await Round.find().populate('golfers course').populate('scorecard.golfer');
     res.json(round); // Respond with all rounds
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -27,7 +27,7 @@ router.get('/', async (req, res) => {
 // Get a specific Round by ID
 router.get('/:id', async (req, res) => {
   try {
-    const round = await Round.findById(req.params.id).populate('golfers course');
+    const round = await Round.findById(req.params.id).populate('golfers course').populate('scorecard.golfer');
     if (!round) {
       return res.status(404).json({ error: 'Round not found' });
     }

@@ -63,15 +63,20 @@ const RoundScreen: React.FC = () => {
             </Card>
             <Card className="p-5 mx-4 my-2">
                 <Heading>Golfers</Heading>
-                {round.golfers.map((golfer: User, index: number) => (
-                    <Card key={`${golfer._id}-${index}`}>
-                        <HStack space='md' className='items-center'>
-                            <Avatar>
-                                <AvatarFallbackText>
-                                    {golfer.name}
-                                </AvatarFallbackText>
-                            </Avatar>
-                            <Text>{golfer.name}</Text>
+                {round.scorecard.map((score: Score, index: number) => (
+                    <Card key={`${score.golfer._id}-${index}`}>
+                        <HStack space='md' className='flex justify-between items-center w-full'>
+                            <Box className='text-left'>
+                                <HStack className='flex items-center'>
+                                    <Avatar className='mr-3'>
+                                        <AvatarFallbackText>
+                                            {score.golfer.name}
+                                        </AvatarFallbackText>
+                                    </Avatar>
+                                    <Text>{score.golfer.name}</Text>
+                                </HStack>
+                            </Box>
+                            <Text className='text-right'>{score.score.filter(strokes => strokes !== null).reduce((acc, holeStrokes) => acc + holeStrokes, 0)}</Text>
                         </HStack>
                     </Card>
                 ))}
