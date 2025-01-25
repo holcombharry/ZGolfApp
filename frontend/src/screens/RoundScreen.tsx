@@ -62,8 +62,16 @@ const RoundScreen: React.FC = () => {
                 </Box>
             </Card>
             <Card className="p-5 mx-4 my-2">
-                <Heading>Golfers</Heading>
-                {round.scorecard.map((score: Score, index: number) => (
+                <HStack className='flex justify-between items-center w-full'>
+                    <Heading className='text-left'>Leaderboard</Heading>
+                    <Text className='text-right'>Through {round.currentHole - 1}</Text>
+                </HStack>
+                {[...round.scorecard]
+                    .sort((a, b) => {
+                        const totalScoreA = a.score.filter(strokes => strokes !== null).reduce((acc, holeStrokes) => acc + holeStrokes, 0);
+                        const totalScoreB = b.score.filter(strokes => strokes !== null).reduce((acc, holeStrokes) => acc + holeStrokes, 0);
+                        return totalScoreA - totalScoreB;                    })
+                    .map((score: Score, index: number) => (
                     <Card key={`${score.golfer._id}-${index}`}>
                         <HStack space='md' className='flex justify-between items-center w-full'>
                             <Box className='text-left'>
