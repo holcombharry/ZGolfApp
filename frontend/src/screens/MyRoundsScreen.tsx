@@ -7,7 +7,6 @@ import { Box } from "@/components/ui/box";
 import { Spinner } from '@/components/ui/spinner';
 import { Pressable } from 'react-native';
 import { getAllRounds } from '@/api/apiService';
-import { Round } from '../types/round.types';
 import RoundCard from '../components/RoundCard';
 import { useRounds } from '../../hooks/RoundsContext';
 
@@ -15,6 +14,9 @@ export default function MyRoundsScreen() {
   const { rounds, setRounds } = useRounds();
   const [loading, setLoading] = useState<boolean>(true);
   const [refreshing, setRefreshing] = useState(false);
+
+  const finishedRounds = rounds.filter(round => round.status === 'Finished');
+  const inProgressRounds = rounds.filter(round => round.status !== 'Finished');
 
   const navigation = useNavigation(); 
 
@@ -70,7 +72,14 @@ export default function MyRoundsScreen() {
       <Box className="bg-info-100 p-5">
         <Heading>Welcome to Rounds on ZGolfApp!</Heading>
       </Box>
-      {rounds.map((round) => (
+      <Heading className='p-3'>In Progress</Heading>
+      {inProgressRounds.map((round) => (
+        <Pressable key={round._id} onPress={() => navigation.navigate('Round', { round })}>
+          <RoundCard key={round._id} round={round} />
+        </Pressable>
+      ))}
+      <Heading className='p-3'>Completed</Heading>
+      {finishedRounds.map((round) => (
         <Pressable key={round._id} onPress={() => navigation.navigate('Round', { round })}>
           <RoundCard key={round._id} round={round} />
         </Pressable>
