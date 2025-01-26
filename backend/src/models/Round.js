@@ -21,6 +21,11 @@ const roundSchema = new Schema({
     type: String, 
     enum: ['Match Play', 'Stroke Play', 'Scramble', 'Best Ball']
   },
+  status: { 
+    type: String, 
+    enum: ['In Progress', 'Finished'],
+    default: 'In Progress'
+  },
   date: { type: Date, required: true }
 }, {
   timestamps: true, // Automatically creates createdAt and updatedAt fields

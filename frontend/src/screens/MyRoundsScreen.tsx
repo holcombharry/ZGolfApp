@@ -6,13 +6,13 @@ import { Heading } from "@/components/ui/heading";
 import { Box } from "@/components/ui/box";
 import { Spinner } from '@/components/ui/spinner';
 import { Pressable } from 'react-native';
-
 import { getAllRounds } from '@/api/apiService';
 import { Round } from '../types/round.types';
 import RoundCard from '../components/RoundCard';
+import { useRounds } from '../../hooks/RoundsContext';
 
 export default function MyRoundsScreen() {
-  const [rounds, setRounds] = useState<Round[]>([]);
+  const { rounds, setRounds } = useRounds();
   const [loading, setLoading] = useState<boolean>(true);
   const [refreshing, setRefreshing] = useState(false);
 

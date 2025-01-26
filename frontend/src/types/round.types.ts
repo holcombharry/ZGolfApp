@@ -12,6 +12,7 @@ export type Round = {
     total?: number; // Optional, total score for the round
     currentHole?: number;
     matchType: 'Match Play' | 'Stroke Play' | 'Scramble' | 'Best Ball'; // Enum for match type
+    status: 'In Progress' | 'Finished'
     date: string;
     createdAt: string; // ISO date string
     updatedAt: string; // ISO date string

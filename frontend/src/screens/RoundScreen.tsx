@@ -13,12 +13,15 @@ import { Button, ButtonText } from '@/components/ui/button';
 import AddScoreModal from '../components/AddScoreModal';
 import { Score } from '../types/scorecard.types';
 import { updateRoundById } from '@/api/apiService';
+import { useRounds } from '../../hooks/RoundsContext';
 
 const RoundScreen: React.FC = () => {
     const route = useRoute();
 
     const [round, setRound] = useState(route.params.round);
     const [showAddScoreModal, setShowAddScoreModal] = useState(false);
+
+    const { updateRound } = useRounds();
 
     const handleShowAddScoreModal = () => {
         setShowAddScoreModal(true);
@@ -34,6 +37,7 @@ const RoundScreen: React.FC = () => {
         updateRoundById(round._id, updatedRound)
             .then(() => {
                 setRound(updatedRound);
+                updateRound(updatedRound);
                 Alert.alert('Success', 'Scores updated successfully!');
             })
             .catch(() => {
