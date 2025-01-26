@@ -32,16 +32,16 @@ const RoundScreen: React.FC = () => {
     }
 
     const handleSaveScores = (updatedScorecard: Score[]) => {
-        const updatedRound = { ...round, scorecard: updatedScorecard, currentHole: round.currentHole + 1 };
+        const status = round.currentHole + 1 > 18 ? 'Finished' : 'In Progress';
+        const updatedRound = { ...round, scorecard: updatedScorecard, currentHole: round.currentHole + 1, status: status };
 
         updateRoundById(round._id, updatedRound)
             .then(() => {
                 setRound(updatedRound);
                 updateRound(updatedRound);
-                Alert.alert('Success', 'Scores updated successfully!');
             })
-            .catch(() => {
-                Alert.alert('Error', 'Scores not updated!');
+            .catch((error) => {
+                console.error('Scores not updated!', error);
             })
       };
 
