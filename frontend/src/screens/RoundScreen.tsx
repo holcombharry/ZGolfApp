@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRoute } from '@react-navigation/native';
 
 import { ScrollView, Alert } from 'react-native';
@@ -22,15 +22,18 @@ const RoundScreen: React.FC = () => {
     const [round, setRound] = useState(route.params.round);
     const [showAddScoreModal, setShowAddScoreModal] = useState(false);
 
-    const playerScores = round.scorecard.map((score: Score, index: number) => calculateStrokeScore(score.score, round.course.scorecard));
+    // const playerScores = round.scorecard.map((score: Score, index: number) => calculateStrokeScore(score.score, round.course.scorecard));
+
+    useEffect(() => {
+        const updatedScorecard = round.scorecard.map((score: Score) => ({
+            ...score,
+            strokeScore: calculateStrokeScore(score.score, round.course.scorecard)
+        }));
+        setRound((prevRound) => ({ ...prevRound, scorecard: updatedScorecard }));
+    }, [round.course.scorecard]);
 
     // Sort round.scorecard based on playerScores
-    const sortedScorecard = [...round.scorecard].sort((a, b) => {
-        const indexA = round.scorecard.indexOf(a);
-        const indexB = round.scorecard.indexOf(b);
-
-        return playerScores[indexA] - playerScores[indexB];
-    });
+    const sortedScorecard = [...round.scorecard].sort((a, b) => a.strokeScore - b.strokeScore);
 
     const { updateRound } = useRounds();
 
@@ -105,7 +108,7 @@ const RoundScreen: React.FC = () => {
                                     <Text>{score.golfer.displayName}</Text>
                                 </HStack>
                             </Box>
-                            <Text className='text-right'>{playerScores[index]}</Text>
+                            <Text className='text-right'>{score.strokeScore}</Text>
                         </HStack>
                     </Card>
                 ))}
