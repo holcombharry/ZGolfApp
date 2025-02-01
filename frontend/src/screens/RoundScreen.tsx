@@ -14,12 +14,23 @@ import AddScoreModal from '../components/AddScoreModal';
 import { Score } from '../types/scorecard.types';
 import { updateRoundById } from '@/api/apiService';
 import { useRounds } from '../../hooks/RoundsContext';
+import { calculateStrokeScore, calculateMatchScore } from '../utils/matchUtils';
 
 const RoundScreen: React.FC = () => {
     const route = useRoute();
 
     const [round, setRound] = useState(route.params.round);
     const [showAddScoreModal, setShowAddScoreModal] = useState(false);
+
+    const playerScores = round.scorecard.map((score: Score, index: number) => calculateStrokeScore(score.score, round.course.scorecard));
+
+    // Sort round.scorecard based on playerScores
+    const sortedScorecard = [...round.scorecard].sort((a, b) => {
+        const indexA = round.scorecard.indexOf(a);
+        const indexB = round.scorecard.indexOf(b);
+
+        return playerScores[indexA] - playerScores[indexB];
+    });
 
     const { updateRound } = useRounds();
 
@@ -81,12 +92,7 @@ const RoundScreen: React.FC = () => {
                     <Heading className='text-left'>Leaderboard</Heading>
                     <Text className='text-right'>Through {round.currentHole - 1}</Text>
                 </HStack>
-                {[...round.scorecard]
-                    .sort((a, b) => {
-                        const totalScoreA = a.score.filter(strokes => strokes !== null).reduce((acc, holeStrokes) => acc + holeStrokes, 0);
-                        const totalScoreB = b.score.filter(strokes => strokes !== null).reduce((acc, holeStrokes) => acc + holeStrokes, 0);
-                        return totalScoreA - totalScoreB;                    })
-                    .map((score: Score, index: number) => (
+                {sortedScorecard.map((score: Score, index: number) => (
                     <Card key={`${score.golfer._id}-${index}`}>
                         <HStack space='md' className='flex justify-between items-center w-full'>
                             <Box className='text-left'>
@@ -99,7 +105,7 @@ const RoundScreen: React.FC = () => {
                                     <Text>{score.golfer.displayName}</Text>
                                 </HStack>
                             </Box>
-                            <Text className='text-right'>{score.score.filter(strokes => strokes !== null).reduce((acc, holeStrokes) => acc + holeStrokes, 0)}</Text>
+                            <Text className='text-right'>{playerScores[index]}</Text>
                         </HStack>
                     </Card>
                 ))}

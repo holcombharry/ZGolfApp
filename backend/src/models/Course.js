@@ -12,7 +12,8 @@ const courseSchema = new mongoose.Schema({
   latitude: { type: Number },
   longitude: { type: Number },
   par: { type: Number }, // Par of the course
-  holes: { type: Number } // Number of holes (usually 18)
+  holes: { type: Number }, // Number of holes
+  scorecard: { type: [Number] }
 }, {
   timestamps: true,
 });

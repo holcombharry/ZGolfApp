@@ -10,6 +10,7 @@ export type Course = {
     longitude: number;
     par: number;
     holes: number;
+    scorecard: (number | null)[];
     createdAt: Date;
     updatedAt: Date;
 };
