@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useRoute } from '@react-navigation/native';
 
 import { ScrollView, Alert } from 'react-native';
@@ -24,16 +24,15 @@ const RoundScreen: React.FC = () => {
 
     // const playerScores = round.scorecard.map((score: Score, index: number) => calculateStrokeScore(score.score, round.course.scorecard));
 
-    useEffect(() => {
-        const updatedScorecard = round.scorecard.map((score: Score) => ({
+    const updatedScorecard = useMemo(() => {
+        return round.scorecard.map((score: Score) => ({
             ...score,
             strokeScore: calculateStrokeScore(score.score, round.course.scorecard)
         }));
-        setRound((prevRound) => ({ ...prevRound, scorecard: updatedScorecard }));
-    }, [round.course.scorecard]);
-
-    // Sort round.scorecard based on playerScores
-    const sortedScorecard = [...round.scorecard].sort((a, b) => a.strokeScore - b.strokeScore);
+    }, [round.scorecard, round.course.scorecard]);
+    
+    // Use updatedScorecard directly instead of updating the round state
+    const sortedScorecard = [...updatedScorecard].sort((a, b) => a.strokeScore - b.strokeScore);
 
     const { updateRound } = useRounds();
 
