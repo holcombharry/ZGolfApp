@@ -23,15 +23,21 @@ const RoundScreen: React.FC = () => {
     const [showAddScoreModal, setShowAddScoreModal] = useState(false);
 
     const updatedScorecard = useMemo(() => {
-        const matchPlayScores = round.matchType === 'Match Play' ? calculateMatchScore(round.scorecard.map((score: Score) => score.score)) : [];
-        return round.scorecard.map((score: Score) => ({
-            ...score,
-            matchScore:
-                round.matchType === 'Stroke Play'
-                    ? calculateStrokeScore(score.score, round.course.scorecard)
-                    : calculateMatchScore(score.score, round.course.scorecard)
+        let matchPlayScores: number[] = [];
+
+        if (round.matchType === 'Match Play') {
+            const allScores = round.scorecard.map((score: Score) => score.score);
+            matchPlayScores = calculateMatchScore(...allScores);
+        }
+        
+        return round.scorecard.map((score: Score, index: number) => ({
+        ...score,
+        matchScore:
+            round.matchType === 'Stroke Play'
+                ? calculateStrokeScore(score.score, round.course.scorecard)
+                : matchPlayScores[index] ?? 0
         }));
-    }, [round.scorecard, round.course.scorecard]);
+    }, [round.scorecard, round.course.scorecard, round.matchType]);
     
     // Use updatedScorecard directly instead of updating the round state
     const sortedScorecard = [...updatedScorecard].sort((a, b) => a.matchScore - b.matchScore);
