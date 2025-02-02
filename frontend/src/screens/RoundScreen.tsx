@@ -22,17 +22,19 @@ const RoundScreen: React.FC = () => {
     const [round, setRound] = useState(route.params.round);
     const [showAddScoreModal, setShowAddScoreModal] = useState(false);
 
-    // const playerScores = round.scorecard.map((score: Score, index: number) => calculateStrokeScore(score.score, round.course.scorecard));
-
     const updatedScorecard = useMemo(() => {
+        const matchPlayScores = round.matchType === 'Match Play' ? calculateMatchScore(round.scorecard.map((score: Score) => score.score)) : [];
         return round.scorecard.map((score: Score) => ({
             ...score,
-            strokeScore: calculateStrokeScore(score.score, round.course.scorecard)
+            matchScore:
+                round.matchType === 'Stroke Play'
+                    ? calculateStrokeScore(score.score, round.course.scorecard)
+                    : calculateMatchScore(score.score, round.course.scorecard)
         }));
     }, [round.scorecard, round.course.scorecard]);
     
     // Use updatedScorecard directly instead of updating the round state
-    const sortedScorecard = [...updatedScorecard].sort((a, b) => a.strokeScore - b.strokeScore);
+    const sortedScorecard = [...updatedScorecard].sort((a, b) => a.matchScore - b.matchScore);
 
     const { updateRound } = useRounds();
 
@@ -107,7 +109,7 @@ const RoundScreen: React.FC = () => {
                                     <Text>{score.golfer.displayName}</Text>
                                 </HStack>
                             </Box>
-                            <Text className='text-right'>{score.strokeScore > 0 ? `+${score.strokeScore}` : score.strokeScore}</Text>
+                            <Text className='text-right'>{score.matchScore > 0 ? `+${score.matchScore}` : score.matchScore}</Text>
                         </HStack>
                     </Card>
                 ))}
