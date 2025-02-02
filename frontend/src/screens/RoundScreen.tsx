@@ -9,13 +9,14 @@ import { Text } from '@/components/ui/text';
 import { VStack } from '@/components/ui/vstack';
 import { HStack } from '@/components/ui/hstack';
 import { Avatar, AvatarFallbackText } from '@/components/ui/avatar';
-import { Button, ButtonText } from '@/components/ui/button';
+import { Button, ButtonIcon, ButtonText } from '@/components/ui/button';
 import AddScoreModal from '../components/AddScoreModal';
 import { Score } from '../types/scorecard.types';
 import { updateRoundById } from '@/api/apiService';
 import { useRounds } from '../../hooks/RoundsContext';
 import { calculateStrokeScore, calculateMatchScore } from '../utils/matchUtils';
 import { User } from '../types/user.types';
+import { ChevronLeftIcon, ChevronRightIcon } from '@/components/ui/icon';
 
 const RoundScreen: React.FC = () => {
     const route = useRoute();
@@ -90,7 +91,7 @@ const RoundScreen: React.FC = () => {
             }
             return score; // Return the original Score if no update is needed
         });
-        
+
         const updatedCurrentHole = (() => {
             for (let holeIndex = 0; holeIndex < 18; holeIndex++) {
                 if (updatedScorecard.some((score: Score) => score.score[holeIndex] === null)) {
@@ -124,7 +125,6 @@ const RoundScreen: React.FC = () => {
 
     const handleSaveScores = (updatedScorecard: Score[]) => {
         const status = round.currentHole + 1 > 18 ? 'Finished' : 'In Progress';
-        currentHole
         const updatedRound = { ...round, scorecard: updatedScorecard, currentHole: round.currentHole + 1, status: status };
 
         updateRoundById(round._id, updatedRound)
@@ -156,22 +156,28 @@ const RoundScreen: React.FC = () => {
                 <VStack>
                     {round.golfers.map((golfer: User, index: number) => (
                         <Box key={`${golfer._id}-${index}`} className="py-4 pr-4 flex flex-row items-center justify-between">
+                            <Avatar className='mr-3'>
+                                <AvatarFallbackText>
+                                    {golfer.displayName}
+                                </AvatarFallbackText>
+                            </Avatar>
+                            <Text className="mr-10">{golfer.displayName}</Text>
                             <Button onPress={() => handleSubtractStroke(index)}>
-                                <ButtonText>Decrease</ButtonText>
+                                <ButtonIcon as={ChevronLeftIcon} />
                             </Button>
                             <Text size="2xl" className="flex-1 text-center">{inputScores[index] ?? 0}</Text>
                             <Button onPress={() => handleAddStroke(index)}>
-                                <ButtonText>Increase</ButtonText>
+                                <ButtonIcon as={ChevronRightIcon} />
                             </Button>
                         </Box>
                     ))}
                     <Box className="py-4 pr-4 flex flex-row justify-between items-center">
                         <Box className="flex flex-row">
                             <Button variant="outline" className="mr-2" onPress={() => setScoreHole((prevHole: number) => (prevHole > 1 ? prevHole - 1 : prevHole))}>
-                                <ButtonText>Previous</ButtonText>
+                                <ButtonIcon as={ChevronLeftIcon} />
                             </Button>
                             <Button variant="outline" onPress={() => setScoreHole((prevHole: number) => (prevHole < round.course.holes ? prevHole + 1 : prevHole))}>
-                                <ButtonText>Next</ButtonText>
+                                <ButtonIcon as={ChevronRightIcon} />
                             </Button>
                         </Box>
 

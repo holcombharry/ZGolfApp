@@ -1,10 +1,11 @@
 import { Course } from './course.types';
 import { Score } from './scorecard.types';
+import { User } from './user.types';
 
 export type Round = {
     _id: string; // ObjectId as a string
     course: Course;
-    golfers: string[]; // Only stores golfers with linked accounts
+    golfers: User[]; // Only stores golfers with linked accounts
     groupSize: number;
     scorecard: (Score | null)[]; // Array of scores per hole, can include null values
     front?: number; // Optional, total score for the front 9

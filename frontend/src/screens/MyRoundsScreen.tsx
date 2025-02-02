@@ -9,6 +9,9 @@ import { Pressable } from 'react-native';
 import { getAllRounds } from '@/api/apiService';
 import RoundCard from '../components/RoundCard';
 import { useRounds } from '../../hooks/RoundsContext';
+import { User } from '../types/user.types';
+import { Score } from '../types/scorecard.types';
+import { Round } from '../types/round.types';
 
 export default function MyRoundsScreen() {
   const { rounds, setRounds } = useRounds();
@@ -34,15 +37,27 @@ export default function MyRoundsScreen() {
     try {
       const response = await getAllRounds();
       if(response && response.status === 200) {
-        const data = response.data.map(round => ({
+        const data = response.data.map((round: Round) => ({
           ...round,
-          scorecard: round.scorecard.map((score, index) => ({
-            ...score,
-            golfer: {
-              ...score.golfer,
-              displayName: score.golfer.placeholder ? `Golfer ${index + 1}` : score.golfer.name
-            }
-          }))
+          golfers: round.golfers.map((golfer: User | null, index: number) =>
+            golfer
+              ? {
+                  ...golfer,
+                  displayName: golfer.placeholder ? `Golfer ${index + 1}` : golfer.name
+                }
+              : null
+          ),
+          scorecard: round.scorecard.map((score: Score | null, index: number) => 
+            score
+              ? {
+                  ...score,
+                  golfer: {
+                    ...score.golfer,
+                    displayName: score.golfer.placeholder ? `Golfer ${index + 1}` : score.golfer.name
+                  }
+                }
+              : null
+          )
         }));
         setRounds(data);
       } else {
