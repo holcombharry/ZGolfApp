@@ -40,7 +40,11 @@ const RoundScreen: React.FC = () => {
     }, [round.scorecard, round.course.scorecard, round.matchType]);
     
     // Use updatedScorecard directly instead of updating the round state
-    const sortedScorecard = [...updatedScorecard].sort((a, b) => a.matchScore - b.matchScore);
+    const sortedScorecard = [...updatedScorecard].sort((a, b) => {
+        return round.matchType === 'Match Play'
+            ? b.matchScore - a.matchScore // Higher scores first for Match Play
+            : a.matchScore - b.matchScore; // Lower scores first for Stroke Play
+    });
 
     const { updateRound } = useRounds();
 
