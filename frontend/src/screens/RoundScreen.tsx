@@ -107,7 +107,7 @@ const RoundScreen: React.FC = () => {
                                     <Text>{score.golfer.displayName}</Text>
                                 </HStack>
                             </Box>
-                            <Text className='text-right'>{score.strokeScore}</Text>
+                            <Text className='text-right'>{score.strokeScore > 0 ? `+${score.strokeScore}` : score.strokeScore}</Text>
                         </HStack>
                     </Card>
                 ))}
