@@ -20,7 +20,7 @@ const RoundCard: React.FC<RoundCardProps> = ({ round }) => {
           {round.currentHole > 18 ? (
             <Text className='text-right'>Finished</Text>
           ) : (
-            <Text className='text-right'>Current hole {round.currentHole}</Text>
+            <Text className='text-right'>Through {round.currentHole - 1}</Text>
           )}
         </HStack>
         <Text>{round.matchType}</Text>
