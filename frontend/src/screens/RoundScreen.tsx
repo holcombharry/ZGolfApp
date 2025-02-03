@@ -82,14 +82,10 @@ const RoundScreen: React.FC = () => {
     const handleSubmitScores = () => {
         const status = round.currentHole + 1 > 18 ? 'Finished' : 'In Progress';
         const updatedScorecard = round.scorecard.map((score: Score, index: number) => {
-            if (index === scoreHole - 1) {
-                // Create a new score array with the updated value
-                const updatedScore = [...score.score];
-                updatedScore[scoreHole - 1] = inputScores[index]; // Updating based on current hole
-    
-                return { ...score, score: updatedScore }; // Return the updated Score object
-            }
-            return score; // Return the original Score if no update is needed
+            const updatedScore = [...score.score];
+            updatedScore[scoreHole - 1] = inputScores[index]; // Update score for current hole
+            
+            return { ...score, score: updatedScore }; // Return the updated Score object
         });
 
         const updatedCurrentHole = (() => {
